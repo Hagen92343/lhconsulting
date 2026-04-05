@@ -1,7 +1,9 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export function Footer() {
   const t = useTranslations("footer");
+  const locale = useLocale();
   const year = new Date().getFullYear();
 
   return (
@@ -15,18 +17,18 @@ export function Footer() {
 
           {/* Legal Links */}
           <div className="flex items-center gap-6">
-            <a
+            <Link
               href="/impressum"
               className="font-mono text-xs text-cyber-muted hover:text-cyber-cyan transition-colors duration-300"
             >
               {t("imprint")}
-            </a>
-            <a
+            </Link>
+            <Link
               href="/datenschutz"
               className="font-mono text-xs text-cyber-muted hover:text-cyber-cyan transition-colors duration-300"
             >
               {t("privacy")}
-            </a>
+            </Link>
           </div>
         </div>
       </div>
