@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "L&H Consulting — AI Consulting & Implementation",
+    "description": "We bring AI to your business. Strategy, implementation, and training — all from one source."
+  },
+  "nav": {
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "hero": {
+    "headline": "The Future Belongs to AI",
+    "subline": "Strategy. Implementation. Training.",
+    "cta": "Get in Touch"
+  },
+  "services": {
+    "title": "Our Services",
+    "strategy": {
+      "title": "AI Strategy",
+      "description": "We analyze your processes and identify the most impactful areas for Artificial Intelligence in your organization."
+    },
+    "implementation": {
+      "title": "AI Implementation",
+      "description": "From concept to production: We develop and integrate custom AI systems — chatbots, automation, intelligent workflows."
+    },
+    "training": {
+      "title": "AI Training",
+      "description": "Hands-on workshops and training that empower your team to effectively use AI tools and develop their own solutions."
+    }
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Ready for the next step? Drop us a message.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully. We'll get back to you soon.",
+    "error": "Failed to send. Please try again.",
+    "validation": {
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter your email address",
+      "emailInvalid": "Please enter a valid email address",
+      "messageRequired": "Please enter a message",
+      "messageMin": "Message must be at least 10 characters"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "imprint": "Imprint",
+    "privacy": "Privacy Policy"
+  }
+}

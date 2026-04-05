@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "L&H Consulting — KI-Beratung & Implementierung",
+    "description": "Wir bringen KI in Ihr Unternehmen. Strategie, Implementierung und Schulungen aus einer Hand."
+  },
+  "nav": {
+    "services": "Services",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "headline": "Die Zukunft gehört der KI",
+    "subline": "Strategie. Implementierung. Schulung.",
+    "cta": "Jetzt beraten lassen"
+  },
+  "services": {
+    "title": "Unsere Services",
+    "strategy": {
+      "title": "KI-Strategie",
+      "description": "Wir analysieren Ihre Prozesse und identifizieren die wirkungsvollsten Einsatzfelder für Künstliche Intelligenz in Ihrem Unternehmen."
+    },
+    "implementation": {
+      "title": "KI-Implementierung",
+      "description": "Von der Idee zur fertigen Lösung: Wir entwickeln und integrieren maßgeschneiderte KI-Systeme — Chatbots, Automatisierung, intelligente Workflows."
+    },
+    "training": {
+      "title": "KI-Schulung",
+      "description": "Praxisnahe Workshops und Trainings, die Ihr Team befähigen, KI-Tools effektiv einzusetzen und eigene Lösungen zu entwickeln."
+    }
+  },
+  "contact": {
+    "title": "Kontakt aufnehmen",
+    "subtitle": "Bereit für den nächsten Schritt? Schreiben Sie uns.",
+    "name": "Name",
+    "email": "E-Mail",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "success": "Nachricht erfolgreich gesendet. Wir melden uns bei Ihnen.",
+    "error": "Fehler beim Senden. Bitte versuchen Sie es erneut.",
+    "validation": {
+      "nameRequired": "Bitte geben Sie Ihren Namen ein",
+      "emailRequired": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+      "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "messageRequired": "Bitte geben Sie eine Nachricht ein",
+      "messageMin": "Die Nachricht muss mindestens 10 Zeichen lang sein"
+    }
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
+  }
+}
