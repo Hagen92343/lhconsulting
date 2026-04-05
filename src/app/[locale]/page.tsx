@@ -1,4 +1,33 @@
 import { setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { Header } from "@/components/layout/Header";
+import { Hero } from "@/components/sections/Hero";
+import { Services } from "@/components/sections/Services";
+import { Contact } from "@/components/sections/Contact";
+import { Footer } from "@/components/layout/Footer";
+import ScanlineOverlay from "@/components/effects/ScanlineOverlay";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      type: "website",
+      locale: locale === "de" ? "de_DE" : "en_US",
+      siteName: "L&H Consulting",
+    },
+  };
+}
 
 export default async function HomePage({
   params,
@@ -9,12 +38,15 @@ export default async function HomePage({
   setRequestLocale(locale);
 
   return (
-    <main>
-      <section id="hero" className="min-h-screen flex items-center justify-center">
-        <h1 className="text-4xl font-display text-cyber-cyan text-glow-cyan">
-          L&H Consulting
-        </h1>
-      </section>
-    </main>
+    <>
+      <ScanlineOverlay />
+      <Header />
+      <main>
+        <Hero />
+        <Services />
+        <Contact />
+      </main>
+      <Footer />
+    </>
   );
 }
