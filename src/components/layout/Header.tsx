@@ -64,9 +64,20 @@ export function Header() {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          className="font-display text-2xl font-bold text-cyber-cyan text-glow-cyan tracking-widest select-none"
+          className="flex items-center gap-3 select-none group"
         >
-          L&H
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none" className="shrink-0">
+            <path d="M24 2L44 14V34L24 46L4 34V14L24 2Z" stroke="currentColor" strokeWidth="1.5" fill="none" className="text-cyber-cyan" />
+            <path d="M16 14V34H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cyber-cyan" />
+            <path d="M26 14V34M26 24H34M34 14V34" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cyber-cyan" />
+            <circle cx="24" cy="2" r="2" fill="currentColor" className="text-cyber-cyan opacity-60" />
+            <circle cx="44" cy="14" r="2" fill="currentColor" className="text-cyber-cyan opacity-40" />
+            <circle cx="4" cy="14" r="2" fill="currentColor" className="text-cyber-cyan opacity-40" />
+          </svg>
+          <div className="flex flex-col">
+            <span className="font-display text-lg font-bold text-white tracking-[3px] group-hover:text-cyber-cyan transition-colors duration-300">L&H</span>
+            <span className="text-[8px] tracking-[3px] uppercase text-cyber-cyan/50">Consulting</span>
+          </div>
         </a>
 
         {/* Nav Links + Language Toggle */}
