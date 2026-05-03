@@ -1,9 +1,8 @@
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 export function Footer() {
   const t = useTranslations("footer");
-  const locale = useLocale();
   const year = new Date().getFullYear();
 
   return (

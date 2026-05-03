@@ -1,6 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
 
 interface TypingTextProps {
   text: string;
@@ -14,58 +15,50 @@ export default function TypingText({
   text,
   speed = 50,
   className,
-  cursorColor = '#00c8ff',
+  cursorColor = "#00c8ff",
   onComplete,
 }: TypingTextProps) {
-  const [displayedText, setDisplayedText] = useState('');
-  const [isComplete, setIsComplete] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const [displayedText, setDisplayedText] = useState(reducedMotion ? text : "");
+  const [isComplete, setIsComplete] = useState(reducedMotion);
   const [cursorVisible, setCursorVisible] = useState(true);
   const containerRef = useRef<HTMLSpanElement>(null);
-  const indexRef = useRef(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const cursorIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const reducedMotionRef = useRef(false);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   // Blink the cursor
   useEffect(() => {
-    cursorIntervalRef.current = setInterval(() => {
-      setCursorVisible((v) => !v);
-    }, 530);
-
-    return () => {
-      if (cursorIntervalRef.current) clearInterval(cursorIntervalRef.current);
-    };
+    const id = setInterval(() => setCursorVisible((v) => !v), 530);
+    return () => clearInterval(id);
   }, []);
 
-  // Check reduced motion
+  // Type when the element becomes visible (skip entirely under reduced motion)
   useEffect(() => {
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    reducedMotionRef.current = motionQuery.matches;
+    if (reducedMotion) return;
 
-    if (motionQuery.matches) {
-      // Show full text immediately
-      setDisplayedText(text);
-      setIsComplete(true);
-      onComplete?.();
-    }
-
-    const handler = (e: MediaQueryListEvent) => {
-      reducedMotionRef.current = e.matches;
-    };
-    motionQuery.addEventListener('change', handler);
-    return () => motionQuery.removeEventListener('change', handler);
-  }, [text, onComplete]);
-
-  // IntersectionObserver — only start typing when visible
-  useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+
+    let typingId: ReturnType<typeof setInterval> | null = null;
+    let index = 0;
+
+    const startTyping = () => {
+      typingId = setInterval(() => {
+        if (index < text.length) {
+          index++;
+          setDisplayedText(text.slice(0, index));
+        } else {
+          if (typingId) clearInterval(typingId);
+          setIsComplete(true);
+          onCompleteRef.current?.();
+        }
+      }, speed);
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          startTyping();
           observer.disconnect();
         }
       },
@@ -73,38 +66,12 @@ export default function TypingText({
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  // Typing effect
-  const startTyping = useCallback(() => {
-    if (reducedMotionRef.current) return;
-
-    indexRef.current = 0;
-    setDisplayedText('');
-    setIsComplete(false);
-
-    intervalRef.current = setInterval(() => {
-      if (indexRef.current < text.length) {
-        setDisplayedText(text.slice(0, indexRef.current + 1));
-        indexRef.current++;
-      } else {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-        setIsComplete(true);
-        onComplete?.();
-      }
-    }, speed);
-  }, [text, speed, onComplete]);
-
-  useEffect(() => {
-    if (isVisible && !reducedMotionRef.current) {
-      startTyping();
-    }
 
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      observer.disconnect();
+      if (typingId) clearInterval(typingId);
     };
-  }, [isVisible, startTyping]);
+  }, [text, speed, reducedMotion]);
 
   return (
     <span ref={containerRef} className={className} aria-label={text}>
@@ -112,14 +79,15 @@ export default function TypingText({
       <span
         aria-hidden="true"
         style={{
-          display: 'inline-block',
-          width: '0.6em',
-          height: '1.1em',
-          marginLeft: '2px',
-          verticalAlign: 'text-bottom',
-          backgroundColor: cursorVisible || isComplete ? cursorColor : 'transparent',
+          display: "inline-block",
+          width: "0.6em",
+          height: "1.1em",
+          marginLeft: "2px",
+          verticalAlign: "text-bottom",
+          backgroundColor:
+            cursorVisible || isComplete ? cursorColor : "transparent",
           opacity: isComplete && !cursorVisible ? 0 : 0.9,
-          transition: 'opacity 0.1s',
+          transition: "opacity 0.1s",
         }}
       />
     </span>

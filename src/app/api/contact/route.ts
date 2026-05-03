@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 // ---------------------------------------------------------------------------
 // Schema — strict bounds, no output of internal Zod issues to callers
 // ---------------------------------------------------------------------------
-const ALLOWED_LOCALES = ["de", "en"] as const;
+type AllowedLocale = "de" | "en";
 
 const contactSchema = z.object({
   name: z.string().min(1).max(200),
@@ -43,7 +43,7 @@ function getClientIp(request: NextRequest): string {
 }
 
 /** Derive a safe locale value — never trust raw header strings. */
-function safeLocale(request: NextRequest): (typeof ALLOWED_LOCALES)[number] {
+function safeLocale(request: NextRequest): AllowedLocale {
   const raw = request.headers.get("accept-language") ?? "";
   return raw.startsWith("de") ? "de" : "en";
 }

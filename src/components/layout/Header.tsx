@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { LanguageToggle } from "@/components/ui/LanguageToggle";
