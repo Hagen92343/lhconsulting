@@ -5,6 +5,7 @@
   },
   "nav": {
     "services": "Services",
+    "references": "Referenzen",
     "contact": "Kontakt"
   },
   "hero": {
@@ -26,6 +27,35 @@
       "title": "KI-Schulung",
       "description": "Praxisnahe Workshops und Trainings, die Ihr Team befähigen, KI-Tools effektiv einzusetzen und eigene Lösungen zu entwickeln."
     }
+  },
+  "references": {
+    "tagline": "Live-Projekte",
+    "title": "Referenzen",
+    "subtitle": "Eigene KI-Produkte — von Konzept bis Markt entwickelt.",
+    "visit": "Live ansehen",
+    "cvschmiede": {
+      "title": "CV-Schmiede",
+      "tagline": "KI-gestützte CV-Formatierung für Personalberater",
+      "description": "Recruiter laden Lebensläufe hoch, die KI extrahiert die Daten und formatiert sie sauber auf das eigene Template — DSGVO-konform und auf den DACH-Markt zugeschnitten.",
+      "tag1": "Document AI",
+      "tag2": "B2B SaaS",
+      "tag3": "DSGVO"
+    },
+    "liiposter": {
+      "title": "LiiPoster",
+      "tagline": "KI-Ghostwriter für LinkedIn",
+      "description": "Lernt den Schreibstil, plant Wochen-Content, generiert Posts samt passender Bilder und veröffentlicht automatisiert nach Freigabe — für Berater, Coaches und Freelancer im DACH-Raum.",
+      "tag1": "LLM Fine-Tuning",
+      "tag2": "Image Generation",
+      "tag3": "Automation"
+    }
+  },
+  "pricing": {
+    "tagline": "Investment",
+    "title": "Pakete & Preise",
+    "subtitle": "Maßgeschneidert auf Ihren Use-Case.",
+    "body": "Jedes Projekt ist anders — Aufwand und Wert auch. Wir stimmen Pakete individuell auf Ihre Ziele ab.",
+    "cta": "Anfrage stellen"
   },
   "contact": {
     "title": "Kontakt aufnehmen",

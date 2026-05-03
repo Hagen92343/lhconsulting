@@ -5,6 +5,7 @@
   },
   "nav": {
     "services": "Services",
+    "references": "Case Studies",
     "contact": "Contact"
   },
   "hero": {
@@ -26,6 +27,35 @@
       "title": "AI Training",
       "description": "Hands-on workshops and training that empower your team to effectively use AI tools and develop their own solutions."
     }
+  },
+  "references": {
+    "tagline": "Live Projects",
+    "title": "Case Studies",
+    "subtitle": "AI products built end-to-end — from concept to market.",
+    "visit": "View live",
+    "cvschmiede": {
+      "title": "CV-Schmiede",
+      "tagline": "AI-powered CV formatting for recruiters",
+      "description": "Recruiters upload resumes; the AI extracts the data and reformats it into the agency's own template — GDPR-compliant and tailored for the DACH market.",
+      "tag1": "Document AI",
+      "tag2": "B2B SaaS",
+      "tag3": "GDPR"
+    },
+    "liiposter": {
+      "title": "LiiPoster",
+      "tagline": "AI ghostwriter for LinkedIn",
+      "description": "Learns the writing voice, plans a week of content, generates posts with matching images, and auto-publishes after approval — built for consultants, coaches, and freelancers in DACH.",
+      "tag1": "LLM Fine-Tuning",
+      "tag2": "Image Generation",
+      "tag3": "Automation"
+    }
+  },
+  "pricing": {
+    "tagline": "Investment",
+    "title": "Packages & Pricing",
+    "subtitle": "Tailored to your use case.",
+    "body": "Every project is different — so are the effort and the value. Packages are scoped individually to your goals.",
+    "cta": "Request a quote"
   },
   "contact": {
     "title": "Get in Touch",

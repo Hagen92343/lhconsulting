@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
+import { References } from "@/components/sections/References";
+import { Pricing } from "@/components/sections/Pricing";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
 import ScanlineOverlay from "@/components/effects/ScanlineOverlay";
@@ -44,6 +46,8 @@ export default async function HomePage({
       <main>
         <Hero />
         <Services />
+        <References />
+        <Pricing />
         <Contact />
       </main>
       <Footer />

@@ -89,6 +89,12 @@ export function Header() {
             {t("services")}
           </NavLink>
           <NavLink
+            href="#references"
+            onClick={(e) => handleSmoothScroll(e, "references")}
+          >
+            {t("references")}
+          </NavLink>
+          <NavLink
             href="#contact"
             onClick={(e) => handleSmoothScroll(e, "contact")}
           >

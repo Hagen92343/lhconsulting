@@ -44,6 +44,43 @@ test.describe("L&H Consulting homepage", () => {
     ).toBeVisible();
   });
 
+  test("references section lists both projects with safe outbound links", async ({
+    page,
+  }) => {
+    await page.goto("/de");
+    await page.locator("#references").scrollIntoViewIfNeeded();
+
+    await expect(
+      page.getByRole("heading", { name: /Referenzen/i })
+    ).toBeVisible();
+
+    // Each card is a link with target="_blank" + rel="noopener noreferrer"
+    const cv = page.getByRole("link", { name: /CV-Schmiede/i });
+    const lp = page.getByRole("link", { name: /LiiPoster/i });
+
+    await expect(cv).toHaveAttribute("href", "https://cvschmiede.com");
+    await expect(cv).toHaveAttribute("target", "_blank");
+    await expect(cv).toHaveAttribute("rel", /noopener/);
+
+    await expect(lp).toHaveAttribute("href", "https://liiposter.de");
+    await expect(lp).toHaveAttribute("target", "_blank");
+    await expect(lp).toHaveAttribute("rel", /noopener/);
+  });
+
+  test("pricing CTA scrolls the contact form into view", async ({ page }) => {
+    await page.goto("/de");
+    await page.locator("#pricing").scrollIntoViewIfNeeded();
+
+    await page
+      .getByRole("button", { name: /Anfrage stellen/i })
+      .click();
+
+    // Smooth scroll lands the contact heading inside the viewport.
+    await expect(
+      page.getByRole("heading", { name: /Kontakt aufnehmen/i })
+    ).toBeInViewport();
+  });
+
   test("contact form happy path shows success state (API mocked)", async ({
     page,
   }) => {
