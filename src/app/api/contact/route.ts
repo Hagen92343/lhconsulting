@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 // ---------------------------------------------------------------------------
 // Schema — strict bounds, no output of internal Zod issues to callers
@@ -13,17 +13,55 @@ const contactSchema = z.object({
   message: z.string().min(10).max(5000),
 });
 
+// Mirrors the public.contacts table — keeps the Supabase client typed so we
+// don't need an `any` cast on inserts. Shape matches @supabase/postgrest-js
+// GenericSchema (Tables/Views/Functions, with Relationships on each table).
+type ContactRow = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  locale: AllowedLocale;
+  ip_address: string | null;
+  created_at: string;
+};
+
+type ContactInsert = {
+  name: string;
+  email: string;
+  message: string;
+  locale: AllowedLocale;
+  ip_address?: string | null;
+};
+
+type Database = {
+  public: {
+    Tables: {
+      contacts: {
+        Row: ContactRow;
+        Insert: ContactInsert;
+        Update: Partial<ContactInsert>;
+        Relationships: [];
+      };
+    };
+    Views: { [_ in never]: never };
+    Functions: { [_ in never]: never };
+  };
+};
+
+type ContactsClient = SupabaseClient<Database>;
+
 // ---------------------------------------------------------------------------
 // Supabase — lazy singleton, only uses service role on the server
 // ---------------------------------------------------------------------------
-let _supabase: ReturnType<typeof createClient> | null = null;
+let _supabase: ContactsClient | null = null;
 
-function getSupabase() {
+function getSupabase(): ContactsClient | null {
   if (_supabase) return _supabase;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
-  _supabase = createClient(url, key, {
+  _supabase = createClient<Database>(url, key, {
     auth: { persistSession: false },
   });
   return _supabase;
@@ -60,7 +98,7 @@ function sanitizeString(value: string): string {
 const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
 
 async function isRateLimited(
-  supabase: ReturnType<typeof createClient>,
+  supabase: ContactsClient,
   email: string,
   ip: string
 ): Promise<boolean> {
@@ -139,29 +177,38 @@ export async function POST(request: NextRequest) {
 
   const supabase = getSupabase();
 
-  if (supabase) {
-    // Rate limiting check (IP + email)
-    const limited = await isRateLimited(supabase, email, ip);
-    if (limited) {
-      return NextResponse.json(
-        { error: "Bitte warten Sie 5 Minuten vor dem nächsten Senden." },
-        { status: 429 }
-      );
-    }
-
-    const { error: dbError } = await supabase.from("contacts").insert(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      { name, email, message, locale, ip_address: ip } as any
+  // Hard-fail when env is missing — silently dropping submissions would mislead
+  // users into thinking their message was delivered.
+  if (!supabase) {
+    console.error(
+      "[contact] Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY — refusing to silently drop submission."
     );
+    return NextResponse.json(
+      { error: "Interner Serverfehler. Bitte versuchen Sie es später." },
+      { status: 500 }
+    );
+  }
 
-    if (dbError) {
-      // Log server-side only — never surface DB errors to the client
-      console.error("[contact] Supabase insert error:", dbError.message);
-      return NextResponse.json(
-        { error: "Interner Serverfehler. Bitte versuchen Sie es später." },
-        { status: 500 }
-      );
-    }
+  // Rate limiting check (IP + email)
+  const limited = await isRateLimited(supabase, email, ip);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Bitte warten Sie 5 Minuten vor dem nächsten Senden." },
+      { status: 429 }
+    );
+  }
+
+  const { error: dbError } = await supabase
+    .from("contacts")
+    .insert({ name, email, message, locale, ip_address: ip });
+
+  if (dbError) {
+    // Log server-side only — never surface DB errors to the client
+    console.error("[contact] Supabase insert error:", dbError.message);
+    return NextResponse.json(
+      { error: "Interner Serverfehler. Bitte versuchen Sie es später." },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ success: true });
