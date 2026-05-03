@@ -3,6 +3,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+// Trim env values defensively: Vercel UI input occasionally captures trailing
+// newlines, which then leak into headers as %0A and break browser CSP parsing.
+const supabaseOrigin = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim();
+
 const securityHeaders = [
   // Prevent browsers from MIME-sniffing the content-type
   {
@@ -45,7 +49,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",
-      `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""}`,
+      `connect-src 'self' ${supabaseOrigin}`,
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
