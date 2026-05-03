@@ -43,14 +43,16 @@ export function Hero() {
           </span>
         </motion.div>
 
-        {/* Main headline with typing effect */}
-        <div className="mb-6">
+        {/* Main headline with typing effect — h1 wraps TypingText so the
+            page exposes a real heading to screen readers and search engines.
+            The inner span carries the styling and aria-label of the full text. */}
+        <h1 className="mb-6">
           <TypingText
             text={t("headline")}
             speed={60}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white text-glow-cyan leading-tight"
           />
-        </div>
+        </h1>
 
         {/* Subline with staggered fade-in */}
         <motion.div
