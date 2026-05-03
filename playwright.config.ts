@@ -27,8 +27,10 @@ export default defineConfig({
     },
   ],
   webServer: {
+    // CI runs `next start` against an already-built .next/, expecting the
+    // workflow to have run `npm run build` before invoking the e2e suite.
     command: isCI
-      ? `npm run build && npx next start -p ${PORT}`
+      ? `npx next start -p ${PORT}`
       : `npx next dev -p ${PORT}`,
     url: BASE_URL,
     reuseExistingServer: !isCI,
