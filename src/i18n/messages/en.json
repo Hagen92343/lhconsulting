@@ -96,6 +96,12 @@
       "messageMin": "Message must be at least 10 characters"
     }
   },
+  "notFound": {
+    "tag": "Signal lost",
+    "title": "Page not found.",
+    "body": "This address doesn't exist here — maybe a typo, a stale link, or a page we deliberately removed.",
+    "cta": "Back to homepage"
+  },
   "footer": {
     "rights": "All rights reserved.",
     "imprint": "Imprint",

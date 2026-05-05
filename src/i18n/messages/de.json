@@ -96,6 +96,12 @@
       "messageMin": "Die Nachricht muss mindestens 10 Zeichen lang sein"
     }
   },
+  "notFound": {
+    "tag": "Signal verloren",
+    "title": "Seite nicht gefunden.",
+    "body": "Diese Adresse existiert hier nicht — vielleicht ein Tippfehler, ein veralteter Link oder eine Seite, die wir bewusst entfernt haben.",
+    "cta": "Zurück zur Startseite"
+  },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",
     "imprint": "Impressum",

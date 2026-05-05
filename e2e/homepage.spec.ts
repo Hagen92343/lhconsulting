@@ -95,6 +95,23 @@ test.describe("L&H Consulting homepage", () => {
     ).toBeInViewport();
   });
 
+  test("unknown locale path shows the branded 404, not Next default", async ({
+    page,
+  }) => {
+    const response = await page.goto("/de/this-route-does-not-exist");
+    expect(response?.status()).toBe(404);
+
+    // Branded copy from de.json:notFound is present
+    await expect(
+      page.getByRole("heading", { name: /Seite nicht gefunden/i })
+    ).toBeVisible();
+    await expect(page.getByText(/Signal verloren/i)).toBeVisible();
+    // CTA links back to the locale homepage
+    const cta = page.getByRole("link", { name: /Zurück zur Startseite/i });
+    await expect(cta).toBeVisible();
+    await expect(cta).toHaveAttribute("href", "/de");
+  });
+
   test("contact form happy path shows success state (API mocked)", async ({
     page,
   }) => {
