@@ -83,6 +83,12 @@ export function Header() {
         {/* Nav Links + Language Toggle */}
         <div className="flex items-center gap-8">
           <NavLink
+            href="#about"
+            onClick={(e) => handleSmoothScroll(e, "about")}
+          >
+            {t("about")}
+          </NavLink>
+          <NavLink
             href="#services"
             onClick={(e) => handleSmoothScroll(e, "services")}
           >

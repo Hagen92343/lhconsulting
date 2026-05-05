@@ -4,6 +4,7 @@
     "description": "We bring AI to your business. Strategy, implementation, and training — all from one source."
   },
   "nav": {
+    "about": "About",
     "services": "Services",
     "references": "Case Studies",
     "contact": "Contact"
@@ -12,6 +13,26 @@
     "headline": "We Make AI Work.",
     "subline": "Strategy. Implementation. Training.",
     "cta": "Get in Touch"
+  },
+  "about": {
+    "tagline": "The team behind the work",
+    "title": "About us",
+    "lead": "We're a small, hands-on team that doesn't explain AI — we build it.",
+    "body": "Instead of slide-deck consulting, we deliver running systems: from the first workshop through prototype and integration to production. The same people who scope your project also write the code.",
+    "principles": {
+      "handsOn": {
+        "title": "Hands-on",
+        "description": "We build it ourselves — no sub-subcontracting to external developers."
+      },
+      "dach": {
+        "title": "DACH focus",
+        "description": "GDPR-compliant, German-language support, local hosting options on request."
+      },
+      "endToEnd": {
+        "title": "End-to-end",
+        "description": "From strategy to deployment — one team, one accountability."
+      }
+    }
   },
   "services": {
     "title": "Our Services",

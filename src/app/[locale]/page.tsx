@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Hero } from "@/components/sections/Hero";
+import { About } from "@/components/sections/About";
 import { Services } from "@/components/sections/Services";
 import { References } from "@/components/sections/References";
 import { Pricing } from "@/components/sections/Pricing";
@@ -45,6 +46,7 @@ export default async function HomePage({
       <Header />
       <main>
         <Hero />
+        <About />
         <Services />
         <References />
         <Pricing />

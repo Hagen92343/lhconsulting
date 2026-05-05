@@ -44,6 +44,20 @@ test.describe("L&H Consulting homepage", () => {
     ).toBeVisible();
   });
 
+  test("about section renders heading and three principles", async ({
+    page,
+  }) => {
+    await page.goto("/de");
+    await page.locator("#about").scrollIntoViewIfNeeded();
+
+    await expect(
+      page.getByRole("heading", { name: /^Über uns$/i })
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Hands-on/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /DACH-Fokus/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /End-to-End/i })).toBeVisible();
+  });
+
   test("references section lists both projects with safe outbound links", async ({
     page,
   }) => {

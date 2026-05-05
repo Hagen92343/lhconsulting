@@ -4,6 +4,7 @@
     "description": "Wir bringen KI in Ihr Unternehmen. Strategie, Implementierung und Schulungen aus einer Hand."
   },
   "nav": {
+    "about": "Über uns",
     "services": "Services",
     "references": "Referenzen",
     "contact": "Kontakt"
@@ -12,6 +13,26 @@
     "headline": "Wir machen KI nutzbar.",
     "subline": "Strategie. Implementierung. Schulung.",
     "cta": "Jetzt beraten lassen"
+  },
+  "about": {
+    "tagline": "Die Köpfe dahinter",
+    "title": "Über uns",
+    "lead": "Wir sind ein kleines, hands-on Team, das KI nicht erklärt — sondern baut.",
+    "body": "Statt Folien-Beratung liefern wir laufende Systeme: vom ersten Workshop über Prototyp und Integration bis zum produktiven Betrieb. Jedes Projekt wird von denselben Köpfen begleitet, die später auch den Code schreiben.",
+    "principles": {
+      "handsOn": {
+        "title": "Hands-on",
+        "description": "Wir bauen selbst — keine Sub-Sub-Vergabe an externe Entwickler."
+      },
+      "dach": {
+        "title": "DACH-Fokus",
+        "description": "DSGVO-konform, deutschsprachiger Support, lokale Hosting-Optionen auf Wunsch."
+      },
+      "endToEnd": {
+        "title": "End-to-End",
+        "description": "Von der Strategie bis zum Deployment — eine Hand, eine Verantwortung."
+      }
+    }
   },
   "services": {
     "title": "Unsere Services",
