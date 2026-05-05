@@ -19,8 +19,11 @@ export default function TypingText({
   onComplete,
 }: TypingTextProps) {
   const reducedMotion = useReducedMotion();
-  const [displayedText, setDisplayedText] = useState(reducedMotion ? text : "");
-  const [isComplete, setIsComplete] = useState(reducedMotion);
+  // SSR renders the FULL text so the LCP candidate is the finished headline
+  // — not the empty span we'd otherwise produce. After hydration we reset
+  // to "" and replay the typewriter for the visual effect.
+  const [displayedText, setDisplayedText] = useState(text);
+  const [isComplete, setIsComplete] = useState(true);
   const [cursorVisible, setCursorVisible] = useState(true);
   const containerRef = useRef<HTMLSpanElement>(null);
   const onCompleteRef = useRef(onComplete);
@@ -32,43 +35,28 @@ export default function TypingText({
     return () => clearInterval(id);
   }, []);
 
-  // Type when the element becomes visible (skip entirely under reduced motion)
+  // After mount: replay the typing animation (skip under reduced motion)
   useEffect(() => {
     if (reducedMotion) return;
 
-    const el = containerRef.current;
-    if (!el) return;
+    setDisplayedText("");
+    setIsComplete(false);
 
     let typingId: ReturnType<typeof setInterval> | null = null;
     let index = 0;
 
-    const startTyping = () => {
-      typingId = setInterval(() => {
-        if (index < text.length) {
-          index++;
-          setDisplayedText(text.slice(0, index));
-        } else {
-          if (typingId) clearInterval(typingId);
-          setIsComplete(true);
-          onCompleteRef.current?.();
-        }
-      }, speed);
-    };
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          startTyping();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
+    typingId = setInterval(() => {
+      if (index < text.length) {
+        index++;
+        setDisplayedText(text.slice(0, index));
+      } else {
+        if (typingId) clearInterval(typingId);
+        setIsComplete(true);
+        onCompleteRef.current?.();
+      }
+    }, speed);
 
     return () => {
-      observer.disconnect();
       if (typingId) clearInterval(typingId);
     };
   }, [text, speed, reducedMotion]);

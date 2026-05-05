@@ -24,15 +24,21 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Limit font payload to the weights actually used on the homepage:
+//  - Orbitron: 400 (default body), 600 (font-semibold), 700 (font-bold)
+//  - JetBrains Mono: 400 (default), 600 (font-semibold for emphasised mono)
+// Earlier the bundle pulled every weight Google Fonts ships — ~6× the bytes.
 const orbitron = Orbitron({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
+  weight: ["400", "600"],
   display: "swap",
 });
 

@@ -198,6 +198,25 @@ export default function ParticleField({ className, style, particleCount = 70 }: 
       }
     };
 
+    // Pause animation when canvas is fully off-screen — saves CPU once the
+    // user scrolls past the hero. Connection-line drawing is O(n²), so the
+    // saving compounds with particle count.
+    let isVisible = true;
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (!wasVisible && isVisible && !reducedMotionRef.current) {
+          lastTimeRef.current = 0;
+          animFrameRef.current = requestAnimationFrame(animate);
+        } else if (wasVisible && !isVisible) {
+          cancelAnimationFrame(animFrameRef.current);
+        }
+      },
+      { threshold: 0 }
+    );
+    visibilityObserver.observe(canvas);
+
     if (!reducedMotionRef.current) {
       animFrameRef.current = requestAnimationFrame(animate);
     }
@@ -208,6 +227,7 @@ export default function ParticleField({ className, style, particleCount = 70 }: 
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
       motionQuery.removeEventListener('change', handleMotionChange);
+      visibilityObserver.disconnect();
     };
   }, [draw, initParticles, particleCount]);
 

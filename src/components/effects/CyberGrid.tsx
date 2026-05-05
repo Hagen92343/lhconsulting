@@ -196,6 +196,24 @@ export default function CyberGrid({ className, style }: CyberGridProps) {
       }
     };
 
+    // Pause animation when canvas is fully off-screen — saves CPU after the
+    // user scrolls past the hero. Re-starts when scrolled back into view.
+    let isVisible = true;
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (!wasVisible && isVisible && !reducedMotionRef.current) {
+          lastTimeRef.current = 0;
+          animFrameRef.current = requestAnimationFrame(animate);
+        } else if (wasVisible && !isVisible) {
+          cancelAnimationFrame(animFrameRef.current);
+        }
+      },
+      { threshold: 0 }
+    );
+    visibilityObserver.observe(canvas);
+
     if (!reducedMotionRef.current) {
       animFrameRef.current = requestAnimationFrame(animate);
     }
@@ -204,6 +222,7 @@ export default function CyberGrid({ className, style }: CyberGridProps) {
       cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', resize);
       motionQuery.removeEventListener('change', handleMotionChange);
+      visibilityObserver.disconnect();
     };
   }, [draw]);
 
