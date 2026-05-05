@@ -3,6 +3,8 @@ import { Orbitron, JetBrains_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { setRequestLocale, getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { routing } from "@/i18n/routing";
 
 // metadataBase makes OpenGraph/Twitter image URLs resolve correctly without
@@ -69,6 +71,12 @@ export default async function LocaleLayout({
           <div className="scanline-overlay" />
           {children}
         </NextIntlClientProvider>
+        {/* Cookie-free, anonymised real-user metrics. Only emits on Vercel
+            production / preview — local dev is a no-op, so DSGVO posture is
+            unchanged. Scripts load same-origin via /_vercel/* edge proxy,
+            so no CSP host-allowlist is required. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
