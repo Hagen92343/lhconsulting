@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
@@ -122,42 +123,52 @@ export function About() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-10 md:gap-14 items-center mb-20"
         >
-          {/* Hexagonal avatar placeholder — swap for a real photo later */}
+          {/* Hexagonal portrait — photo clipped to the same hex shape used by
+              the logo, with a cyan stroke + dashed inner ring for cohesion
+              with the rest of the cyber styling. */}
           <div className="mx-auto md:mx-0">
-            <div
-              aria-hidden="true"
-              className="relative w-[180px] h-[180px] flex items-center justify-center"
-            >
+            <div className="relative w-[180px] h-[180px]">
+              {/* Hex-clipped photo */}
+              <div
+                className="absolute inset-[6px]"
+                style={{
+                  clipPath:
+                    "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+                }}
+              >
+                <Image
+                  src="/hagen.jpg"
+                  alt="Hagen Marggraf"
+                  width={168}
+                  height={168}
+                  priority={false}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              {/* Hex frame overlay — cyan glow + dashed inner ring */}
               <svg
+                aria-hidden="true"
                 width="180"
                 height="180"
                 viewBox="0 0 180 180"
                 fill="none"
-                className="absolute inset-0"
+                className="absolute inset-0 pointer-events-none"
               >
                 <path
                   d="M90 6L161 47V133L90 174L19 133V47L90 6Z"
                   stroke="currentColor"
                   strokeWidth="1.5"
-                  className="text-cyber-cyan/40"
-                  fill="rgba(0,200,255,0.04)"
+                  className="text-cyber-cyan/60"
+                  fill="none"
                 />
                 <path
-                  d="M90 18L150 53V127L90 162L30 127V53L90 18Z"
+                  d="M90 14L154 51V129L90 166L26 129V51L90 14Z"
                   stroke="currentColor"
-                  strokeWidth="1"
-                  className="text-cyber-cyan/20"
+                  strokeWidth="0.8"
+                  className="text-cyber-cyan/25"
                   strokeDasharray="3 3"
+                  fill="none"
                 />
-                <text
-                  x="90"
-                  y="98"
-                  textAnchor="middle"
-                  className="fill-cyber-cyan/60 font-display font-bold"
-                  style={{ fontSize: "44px", letterSpacing: "4px" }}
-                >
-                  L&amp;H
-                </text>
               </svg>
             </div>
           </div>
