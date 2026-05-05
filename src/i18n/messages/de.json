@@ -15,10 +15,10 @@
     "cta": "Jetzt beraten lassen"
   },
   "about": {
-    "tagline": "Die Köpfe dahinter",
+    "tagline": "Founder-led",
     "title": "Über uns",
-    "lead": "Wir sind ein kleines, hands-on Team, das KI nicht erklärt — sondern baut.",
-    "body": "Statt Folien-Beratung liefern wir laufende Systeme: vom ersten Workshop über Prototyp und Integration bis zum produktiven Betrieb. Jedes Projekt wird von denselben Köpfen begleitet, die später auch den Code schreiben.",
+    "lead": "Hinter L&H steht Hagen Marggraf — Gründer und Engineer, der KI nicht erklärt, sondern baut.",
+    "body": "Beweis: zwei eigene Produkte, die längst am Markt sind — CV-Schmiede für die Recruiting-Branche und LiiPoster für LinkedIn-Content. Wer L&H beauftragt, bekommt dieselben Hände, die diese Produkte gebaut haben — kein Ressourcenpool, keine Sub-Sub-Vergabe.",
     "principles": {
       "handsOn": {
         "title": "Hands-on",

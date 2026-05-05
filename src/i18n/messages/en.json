@@ -15,10 +15,10 @@
     "cta": "Get in Touch"
   },
   "about": {
-    "tagline": "The team behind the work",
+    "tagline": "Founder-led",
     "title": "About us",
-    "lead": "We're a small, hands-on team that doesn't explain AI — we build it.",
-    "body": "Instead of slide-deck consulting, we deliver running systems: from the first workshop through prototype and integration to production. The same people who scope your project also write the code.",
+    "lead": "Behind L&H stands Hagen Marggraf — founder and engineer who doesn't explain AI, he builds it.",
+    "body": "Proof: two of our own products already in the market — CV-Schmiede for the recruiting industry and LiiPoster for LinkedIn content. When you hire L&H, the engineer who scopes your project is the engineer who writes the code — no resource pools, no sub-subcontracting.",
     "principles": {
       "handsOn": {
         "title": "Hands-on",
