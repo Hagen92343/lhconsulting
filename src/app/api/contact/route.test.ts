@@ -159,6 +159,29 @@ describe("POST /api/contact — schema validation", () => {
   });
 });
 
+describe("POST /api/contact — honeypot trap", () => {
+  it("returns 200 success without inserting when honeypot field is filled", async () => {
+    const POST = await loadPOST();
+    const res = await POST(
+      jsonRequest({ ...validBody, website: "https://spam.example.com" })
+    );
+    // Bot must believe it succeeded — same shape as the real success path
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ success: true });
+    // Crucially: nothing reached Supabase
+    expect(fromMock).not.toHaveBeenCalled();
+  });
+
+  it("treats whitespace-only honeypot value as still empty (real submission)", async () => {
+    const POST = await loadPOST();
+    const res = await POST(jsonRequest({ ...validBody, website: "   " }));
+    expect(res.status).toBe(200);
+    // A whitespace value is not a bot fill — this should still hit the DB.
+    expect(currentChain.insert).toHaveBeenCalledOnce();
+  });
+});
+
 describe("POST /api/contact — silent-failure prevention", () => {
   it("returns 500 when NEXT_PUBLIC_SUPABASE_URL is missing", async () => {
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "");

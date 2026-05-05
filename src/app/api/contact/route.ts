@@ -11,6 +11,11 @@ const contactSchema = z.object({
   name: z.string().min(1).max(200),
   email: z.email(),
   message: z.string().min(10).max(5000),
+  // Honeypot — humans never fill it (it's hidden from view + AT). Bots that
+  // auto-complete every input will. Tolerated as optional so legitimate
+  // submissions don't 400, but inspected after parsing to silently drop the
+  // request before it touches the database.
+  website: z.string().max(500).optional(),
 });
 
 // Mirrors the public.contacts table — keeps the Supabase client typed so we
@@ -166,6 +171,13 @@ export async function POST(request: NextRequest) {
       { error: "Ungültige Eingabe. Bitte alle Felder korrekt ausfüllen." },
       { status: 400 }
     );
+  }
+
+  // Honeypot trip — pretend success so the bot thinks delivery worked and
+  // doesn't retry with a different fingerprint. Never inserted, never logged
+  // beyond a single counter so we don't waste log volume on automated traffic.
+  if (parsed.data.website && parsed.data.website.trim().length > 0) {
+    return NextResponse.json({ success: true });
   }
 
   // Sanitize validated strings

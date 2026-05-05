@@ -13,6 +13,8 @@ interface ContactForm {
   name: string;
   email: string;
   message: string;
+  // Honeypot — must stay empty for the request to reach the database.
+  website?: string;
 }
 
 export function Contact() {
@@ -83,6 +85,24 @@ export function Contact() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="space-y-6"
         >
+          {/* Honeypot field — moved off-screen instead of display:none, since
+              naïve bots fill display:none too. tabIndex={-1} keeps it out of
+              keyboard order; aria-hidden + label/text hide it from screen
+              readers. Real users never see or interact with it. */}
+          <div
+            aria-hidden="true"
+            className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"
+          >
+            <label htmlFor="lh-website-trap">Website</label>
+            <input
+              id="lh-website-trap"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              {...register("website")}
+            />
+          </div>
+
           <Input
             label={t("name")}
             placeholder={t("name")}
