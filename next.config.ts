@@ -35,14 +35,18 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=(), payment=()",
   },
   // Content Security Policy
-  // - script-src: 'unsafe-eval' is needed in DEV only (React surfaces server
-  //   stack traces by reconstructing them via eval). Production drops it
-  //   entirely. 'unsafe-inline' has to stay because the homepage statically
-  //   pre-renders, so Next.js bakes its inline hydration scripts into the
-  //   HTML at build time without per-request nonces. (A nonce-based CSP
-  //   would force every page to dynamic rendering — see Next.js 16 CSP docs.)
+  // - script-src: external script tags are pinned by the SRI integrity
+  //   attribute (see experimental.sri below) — any chunk tampered with on
+  //   the CDN / network is refused by the browser. Inline scripts still
+  //   need 'unsafe-inline': Next.js bakes ~10 RSC streaming-payload
+  //   <script> blocks into the static HTML at build time and they cannot
+  //   be hashed in advance (the hash set differs per page). 'unsafe-eval'
+  //   is dev-only — React reconstructs server stack traces via eval there.
+  //   Tightening further would require switching every page to dynamic
+  //   rendering for a nonce-based CSP, which would undo the LCP / CDN
+  //   wins from earlier.
   // - style-src: Tailwind + framer-motion produce computed inline styles
-  //   that we cannot pre-hash, so 'unsafe-inline' stays.
+  //   that we cannot pre-hash, so 'unsafe-inline' stays here too.
   // - default-src locks the rest down, frame-ancestors blocks embedding,
   //   form-action restricts where forms can submit.
   {
@@ -66,6 +70,14 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Subresource Integrity — Next 16 build emits integrity="sha256-…" on every
+  // script tag it generates. The browser refuses to execute any script whose
+  // hash doesn't match, which is exactly what 'unsafe-inline' was guarding
+  // against. Lets us tighten script-src below without forcing the page off
+  // its static prerender path (the alternative was nonce + dynamic rendering).
+  experimental: {
+    sri: { algorithm: "sha256" },
+  },
   async headers() {
     return [
       {
