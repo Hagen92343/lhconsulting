@@ -101,7 +101,7 @@ export function About() {
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Section title */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
@@ -117,7 +117,7 @@ export function About() {
 
         {/* Avatar + bio row */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -186,7 +186,7 @@ export function About() {
 
         {/* Principles row */}
         <motion.div
-          initial="hidden"
+          initial="visible"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           variants={{
@@ -199,7 +199,7 @@ export function About() {
             <motion.div
               key={principle.key}
               variants={{
-                hidden: { opacity: 0, y: 30 },
+                hidden: {},
                 visible: {
                   opacity: 1,
                   y: 0,

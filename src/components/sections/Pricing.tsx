@@ -15,7 +15,7 @@ export function Pricing() {
     <section id="pricing" className="relative py-24 px-6">
       <div className="relative z-10 max-w-3xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}

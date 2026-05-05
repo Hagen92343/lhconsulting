@@ -61,7 +61,7 @@ export function Contact() {
       <div className="relative z-10 max-w-2xl mx-auto">
         {/* Section title */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
@@ -79,7 +79,7 @@ export function Contact() {
         {/* Contact form */}
         <motion.form
           onSubmit={handleSubmit(onSubmit)}
-          initial={{ opacity: 0, y: 40 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.7, delay: 0.2 }}

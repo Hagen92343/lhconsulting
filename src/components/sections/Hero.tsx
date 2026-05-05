@@ -33,7 +33,7 @@ export function Hero() {
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         {/* Small label */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-6"
@@ -56,9 +56,9 @@ export function Hero() {
 
         {/* Subline with staggered fade-in */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 2.5 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
           className="mb-10"
         >
           <p className="text-lg sm:text-xl md:text-2xl font-mono text-cyber-muted tracking-wide">
@@ -68,9 +68,9 @@ export function Hero() {
 
         {/* CTA Button */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 3.2 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
         >
           <Button variant="primary" pulse onClick={handleCTA}>
             {t("cta")}
@@ -81,9 +81,9 @@ export function Hero() {
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: 1 }}
-        transition={{ delay: 4, duration: 1 }}
+        transition={{ delay: 1, duration: 1 }}
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}

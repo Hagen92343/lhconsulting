@@ -92,7 +92,7 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: {},
   visible: {
     opacity: 1,
     y: 0,
@@ -119,7 +119,7 @@ export function References() {
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Section title */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
@@ -139,7 +139,7 @@ export function References() {
         {/* Project cards */}
         <motion.div
           variants={containerVariants}
-          initial="hidden"
+          initial="visible"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
