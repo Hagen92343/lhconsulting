@@ -141,7 +141,7 @@ export function About() {
                   alt="Hagen Marggraf"
                   width={168}
                   height={168}
-                  priority={false}
+                  priority
                   className="object-cover w-full h-full"
                 />
               </div>
