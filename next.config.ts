@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 // Trim env values defensively: Vercel UI input occasionally captures trailing
 // newlines, which then leak into headers as %0A and break browser CSP parsing.
 const supabaseOrigin = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim();
+const isDev = process.env.NODE_ENV !== "production";
 
 const securityHeaders = [
   // Prevent browsers from MIME-sniffing the content-type
@@ -34,25 +35,30 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=(), payment=()",
   },
   // Content Security Policy
-  // - default-src 'self': only load resources from own origin by default
-  // - script-src: allow own scripts + Next.js inline eval in dev
-  // - style-src: allow own styles + inline styles (Tailwind/framer-motion)
-  // - img-src: own origin + data URIs (for blur placeholders)
-  // - font-src: own origin
-  // - connect-src: own origin + Supabase API
-  // - frame-ancestors: deny all (belt-and-suspenders with X-Frame-Options)
+  // - script-src: 'unsafe-eval' is needed in DEV only (React surfaces server
+  //   stack traces by reconstructing them via eval). Production drops it
+  //   entirely. 'unsafe-inline' has to stay because the homepage statically
+  //   pre-renders, so Next.js bakes its inline hydration scripts into the
+  //   HTML at build time without per-request nonces. (A nonce-based CSP
+  //   would force every page to dynamic rendering — see Next.js 16 CSP docs.)
+  // - style-src: Tailwind + framer-motion produce computed inline styles
+  //   that we cannot pre-hash, so 'unsafe-inline' stays.
+  // - default-src locks the rest down, frame-ancestors blocks embedding,
+  //   form-action restricts where forms can submit.
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",
+      "object-src 'none'",
       `connect-src 'self' ${supabaseOrigin}`,
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
+      "upgrade-insecure-requests",
     ]
       .filter(Boolean)
       .join("; "),
